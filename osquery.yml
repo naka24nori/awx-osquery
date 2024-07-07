@@ -1,0 +1,35 @@
+---
+- hosts: all              
+  gather_facts: false
+  tasks:
+    - name: Get scan start time
+      set_fact: 
+        scan_start_time: "{{ now() }}"
+      run_once: true
+
+    - name: Execute osquery
+      command: osqueryi --json "{{ item['query'] }}"
+      loop: "{{ queries }}"
+      register: r
+
+    - name: 結果を表示
+      debug: 
+        msg: 
+          # - "Item: {{ item['item'] }}"
+          - "Result: {{ item['stdout'] | from_json }}"
+      loop: "{{ r.results }}"
+      
+    # - name: Insert query result to PostgreSQL DB
+    #   postgresql_query:
+    #     login_host: 127.0.0.1
+    #     port: 9193
+    #     login_user: root
+    #     db: steampipe
+    #     query: INSERT INTO ansible.osquery (hostname, scan_date, query, result) VALUES (%s, %s, %s, %s)
+    #     positional_args:
+    #       - "{{ inventory_hostname }}"
+    #       - "{{ scan_start_time }}"
+    #       - "{{ item['item'].name }}"
+    #       - "{{ item['stdout'] | from_json | to_json }}"
+    #   loop: "{{ r.results }}"
+    #   delegate_to: 127.0.0.1

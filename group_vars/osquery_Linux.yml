@@ -1,0 +1,5 @@
+queries:
+  - name: system_info
+    query: select * from system_info
+  - name: rpm_packages
+    query: select * from rpm_packages
