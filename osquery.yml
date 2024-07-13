@@ -35,5 +35,5 @@
     #   delegate_to: localhost
 
     - name: delegate test
-      command: echo Hello!
+      command: ping 35.74.174.46
       delegate_to: localhost
