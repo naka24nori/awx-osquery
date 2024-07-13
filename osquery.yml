@@ -18,18 +18,22 @@
           # - "Item: {{ item['item'] }}"
           - "Result: {{ item['stdout'] | from_json }}"
       loop: "{{ r.results }}"
-      
-    - name: Insert query result to PostgreSQL DB
-      postgresql_query:
-        login_host: 35.74.174.46
-        port: 9193
-        login_user: root
-        db: steampipe
-        query: INSERT INTO ansible.osquery (hostname, scan_date, query, result) VALUES (%s, %s, %s, %s)
-        positional_args:
-          - "{{ inventory_hostname }}"
-          - "{{ scan_start_time }}"
-          - "{{ item['item'].name }}"
-          - "{{ item['stdout'] | from_json | to_json }}"
-      loop: "{{ r.results }}"
+
+    # - name: Insert query result to PostgreSQL DB
+    #   postgresql_query:
+    #     login_host: 35.74.174.46
+    #     port: 9193
+    #     login_user: root
+    #     db: steampipe
+    #     query: INSERT INTO ansible.osquery (hostname, scan_date, query, result) VALUES (%s, %s, %s, %s)
+    #     positional_args:
+    #       - "{{ inventory_hostname }}"
+    #       - "{{ scan_start_time }}"
+    #       - "{{ item['item'].name }}"
+    #       - "{{ item['stdout'] | from_json | to_json }}"
+    #   loop: "{{ r.results }}"
+    #   delegate_to: localhost
+
+    - name: delegate test
+      command: echo Hello!
       delegate_to: localhost
