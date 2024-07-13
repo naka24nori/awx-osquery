@@ -32,4 +32,4 @@
           - "{{ item['item'].name }}"
           - "{{ item['stdout'] | from_json | to_json }}"
       loop: "{{ r.results }}"
-      delegate_to: 127.0.0.1
+      delegate_to: localhost
