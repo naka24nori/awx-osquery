@@ -21,7 +21,7 @@
 
     - name: Insert query result to PostgreSQL DB
       postgresql_query:
-        login_host: 35.74.174.46
+        login_host: 172.17.0.1
         port: 9193
         login_user: root
         db: steampipe
