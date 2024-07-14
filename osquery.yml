@@ -12,19 +12,19 @@
       loop: "{{ queries }}"
       register: r
 
-    - name: 結果を表示
-      debug: 
-        msg: 
-          # - "Item: {{ item['item'] }}"
-          - "Result: {{ item['stdout'] | from_json }}"
-      loop: "{{ r.results }}"
+    # - name: 結果を表示
+    #   debug: 
+    #     msg: 
+    #       # - "Item: {{ item['item'] }}"
+    #       - "Result: {{ item['stdout'] | from_json }}"
+    #   loop: "{{ r.results }}"
 
     - name: Insert query result to PostgreSQL DB
       postgresql_query:
-        login_host: 172.17.0.1
-        port: 9193
-        login_user: root
-        db: steampipe
+        login_host: "{{ pgsql_host }}"
+        port: "{{ pgsql_port }}"
+        login_user: "{{ pgsql_user }}"
+        db: "{{ pgsql_database }}"
         query: INSERT INTO ansible.osquery (hostname, scan_date, query, result) VALUES (%s, %s, %s, %s)
         positional_args:
           - "{{ inventory_hostname }}"
@@ -33,3 +33,4 @@
           - "{{ item['stdout'] | from_json | to_json }}"
       loop: "{{ r.results }}"
       delegate_to: localhost
+      no_log: True
