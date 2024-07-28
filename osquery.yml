@@ -19,7 +19,7 @@
         login_user: "{{ pgsql_user }}"
         login_password: "{{ pgsql_pass }}"
         db: "{{ pgsql_database }}"
-        query: INSERT INTO ansible.osquery (hostname, scan_date, query, result) VALUES (%s, %s, %s, %s)
+        query: INSERT INTO "{{ pgsql_table }}" (hostname, scan_date, query, result) VALUES (%s, %s, %s, %s)
         positional_args:
           - "{{ inventory_hostname }}"
           - "{{ scan_start_time }}"
