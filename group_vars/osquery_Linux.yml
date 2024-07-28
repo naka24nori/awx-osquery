@@ -3,8 +3,6 @@ queries:
     query: select * from system_info
   - name: rpm_packages
     query: select * from rpm_packages
-  - name: device_partitions
-    query: select * from device_partitions
   - name: ec2_instance_metadata
     query: select * from ec2_instance_metadata
   - name: ec2_instance_tags
