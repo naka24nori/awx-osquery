@@ -12,18 +12,12 @@
       loop: "{{ queries }}"
       register: r
 
-    # - name: 結果を表示
-    #   debug: 
-    #     msg: 
-    #       # - "Item: {{ item['item'] }}"
-    #       - "Result: {{ item['stdout'] | from_json }}"
-    #   loop: "{{ r.results }}"
-
     - name: Insert query result to PostgreSQL DB
       postgresql_query:
         login_host: "{{ pgsql_host }}"
         port: "{{ pgsql_port }}"
         login_user: "{{ pgsql_user }}"
+        login_password: "{{ pgsql_pass }}"
         db: "{{ pgsql_database }}"
         query: INSERT INTO ansible.osquery (hostname, scan_date, query, result) VALUES (%s, %s, %s, %s)
         positional_args:
