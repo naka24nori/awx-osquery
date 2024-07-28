@@ -20,6 +20,8 @@
         login_password: "{{ pgsql_pass }}"
         db: "{{ pgsql_database }}"
         query: INSERT INTO "{{ pgsql_table }}" (hostname, scan_date, query, result) VALUES (%s, %s, %s, %s)
+        search_path:
+          - "{{ pgsql_schema }}"
         positional_args:
           - "{{ inventory_hostname }}"
           - "{{ scan_start_time }}"
